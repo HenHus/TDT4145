@@ -1,7 +1,7 @@
 -- Tabell for Flyplasser
 CREATE TABLE Flyplass (
     Flyplasskode TEXT PRIMARY KEY,
-    Flyplassnavn TEXT NOT NULL UNIQUE
+    Flyplassnavn TEXT NOT NULL
 );
 
 -- Tabell for Flyselskaper
@@ -72,12 +72,13 @@ CREATE TABLE Mellomlanding (
 
 -- Tabell for Flyvninger
 CREATE TABLE Flyvning (
-    Lopenummer INTEGER PRIMARY KEY,
+    Lopenummer INTEGER NOT NULL,
     RuteNr TEXT NOT NULL,
     Fly TEXT,
     Status TEXT NOT NULL,
     FaktiskAvgangstid TEXT,
     FaktiskAnkomsttid TEXT,
+    PRIMARY KEY (Lopenummer, RuteNr),
     FOREIGN KEY (RuteNr) REFERENCES Flyrute(RuteNr) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (Fly) REFERENCES Fly(RegNr) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -104,22 +105,14 @@ CREATE TABLE Fordelsprogram (
 CREATE TABLE Billett (
     BillettId INTEGER PRIMARY KEY,
     Billettkjop TEXT UNIQUE NOT NULL,
+    Lopenummer TEXT NOT NULL,
     Flyrute TEXT NOT NULL,
     Kategori NOT NULL,
-    Kjøpspris TEXT NOT NULL,
+    Pris TEXT NOT NULL,
     Sete TEXT,
     TidspunktInnsjekk TEXT NOT NULL,
-    FOREIGN KEY (Flyrute) REFERENCES Flyrute(RuteNr) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (Lopenummer, Flyrute) REFERENCES Flyvning(Lopenummer, RuteNr) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (Billettkjop) REFERENCES Billettkjop(Referansenummer) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
--- Tabell for Billettpriser
-CREATE TABLE Billettpris (
-    Flyrute TEXT NOT NULL,
-    Kategori TEXT NOT NULL,
-    Pris INTEGER NOT NULL,
-    PRIMARY KEY (Flyrute, Kategori),
-    FOREIGN KEY (Flyrute) REFERENCES Flyrute(RuteNr) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Tabell for Billettkjøp
