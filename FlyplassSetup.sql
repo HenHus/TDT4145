@@ -62,12 +62,12 @@ CREATE TABLE Flyrute (
 -- Tabell for Mellomlandinger
 CREATE TABLE Mellomlanding (
     RuteNr TEXT NOT NULL,
-    MellomlandingFlyplass TEXT NOT NULL,
+    MellomFlyplass TEXT NOT NULL,
     Ankomsttid TEXT NOT NULL,
     Avgangstid TEXT NOT NULL,
-    PRIMARY KEY (RuteNr, FlyplaMellomlandingFlyplass),
+    PRIMARY KEY (RuteNr, MellomFlyplass),
     FOREIGN KEY (RuteNr) REFERENCES Flyrute(RuteNr) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (MellomlandingFlyplass) REFERENCES Flyplass(Flyplasskode) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY (MellomFlyplass) REFERENCES Flyplass(Flyplasskode) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Tabell for Flyvninger
@@ -103,17 +103,19 @@ CREATE TABLE Fordelsprogram (
 -- Tabell for Billetter
 CREATE TABLE Billett (
     BillettId INTEGER PRIMARY KEY,
+    Billettkjop TEXT UNIQUE NOT NULL,
     Flyrute TEXT NOT NULL,
     Kategori NOT NULL,
+    Kjøpspris TEXT NOT NULL,
     Sete TEXT,
     TidspunktInnsjekk TEXT NOT NULL,
-    FOREIGN KEY (KundeNr) REFERENCES Kunde(KundeNr) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (Flyrute) REFERENCES Flyrute(RuteNr) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY (Flyrute) REFERENCES Flyrute(RuteNr) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (Billettkjop) REFERENCES Billettkjop(Referansenummer) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Tabell for Billettpriser
 CREATE TABLE Billettpris (
-    Flyrute TEXT PRIMARY KEY,
+    Flyrute TEXT NOT NULL,
     Kategori TEXT NOT NULL,
     Pris INTEGER NOT NULL,
     PRIMARY KEY (Flyrute, Kategori),
@@ -130,14 +132,6 @@ CREATE TABLE Billettkjop (
     FOREIGN KEY (KundeNr) REFERENCES Kunde(KundeNr) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (Startflyplass) REFERENCES Flyplass(Flyplasskode) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (Sluttflyplass) REFERENCES Flyplass(Flyplasskode) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
--- Tabell for Kjøpte Billetter
-CREATE TABLE KjoptBillett (
-    Referansenummer TEXT NOT NULL,
-    BillettId INTEGER NOT NULL,
-    FOREIGN KEY (Referansenummer) REFERENCES Billettkjop(Referansenummer) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (BillettId) REFERENCES Billett(BillettId) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Tabell for Bagasje
