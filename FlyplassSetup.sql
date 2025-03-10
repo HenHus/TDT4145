@@ -23,8 +23,17 @@ CREATE TABLE Flytype (
     Flyprodusent TEXT NOT NULL,
     Produksjonstart INTEGER NOT NULL,
     Produksjonsslutt INTEGER,
-    Setekapasitet INTEGER NOT NULL,
+    Seterader INTEGER NOT NULL,
+    Setekolonner INTEGER NOT NULL,
     FOREIGN KEY (Flyprodusent) REFERENCES Flyprodusent(Navn) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- Tabell for Nødutganger
+CREATE TABLE Nodutgang (
+    Flytype TEXT NOT NULL,
+    Rad INTEGER NOT NULL,
+    PRIMARY KEY (Flytype, Rad),
+    FOREIGN KEY (Flytype) REFERENCES Flytype(Navn) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Tabell for Fly
@@ -65,6 +74,8 @@ CREATE TABLE Flyvning (
     Flyrutenummer TEXT NOT NULL,
     FlyRegNr TEXT NOT NULL,
     FlyStatus TEXT,
+    PlanlagtAvgangstid TEXT NOT NULL,
+    PlanlagtAnkomsttid TEXT NOT NULL,
     FaktiskAvgangstid TEXT,
     FaktiskAnkomsttid TEXT,
     PRIMARY KEY (Lopenummer, Flyrutenummer),
@@ -124,14 +135,12 @@ CREATE TABLE KjoptBillett (
 CREATE TABLE Billettkjop (
     Referansenummer TEXT PRIMARY KEY,
     KundeNr INTEGER NOT NULL,
-    Rutenummer TEXT NOT NULL,
     Startflyplass TEXT NOT NULL,
     Sluttflyplass TEXT NOT NULL,
     Totalpris INTEGER NOT NULL,
     FOREIGN KEY (KundeNr) REFERENCES Kunde(KundeNr) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (Startflyplass) REFERENCES Flyplass(Flyplasskode) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (Sluttflyplass) REFERENCES Flyplass(Flyplasskode) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (Rutenummer) REFERENCES Flyrute(Flyrutenummer) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Tabell for Bagasje
