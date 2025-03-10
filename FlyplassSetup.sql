@@ -1,3 +1,5 @@
+PRAGMA foreign_keys = ON;
+
 -- Tabell for Flyplasser
 CREATE TABLE Flyplass (
     Flyplasskode TEXT PRIMARY KEY,
@@ -89,6 +91,15 @@ CREATE TABLE Flyvning (
     FOREIGN KEY (SluttFlyplass) REFERENCES Flyplass(Flyplasskode) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (Flyrutenummer) REFERENCES Flyrute(Flyrutenummer) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (FlyRegNr) REFERENCES Fly(RegNr) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- Tabell for Mellomlandinger
+CREATE TABLE Mellomlanding (
+    Flyrutenummer TEXT NOT NULL,
+    Flyplasskode TEXT NOT NULL,
+    PRIMARY KEY (Flyrutenummer, Flyplasskode),
+    FOREIGN KEY (Flyrutenummer) REFERENCES Flyrute(Flyrutenummer) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (Flyplasskode) REFERENCES Flyplass(Flyplasskode) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Tabell for Kunder
