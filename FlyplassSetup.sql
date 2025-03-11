@@ -15,8 +15,15 @@ CREATE TABLE Flyselskap (
 -- Tabell for Flyprodusenter
 CREATE TABLE Flyprodusent (
     Navn TEXT PRIMARY KEY,
-    Nasjonalitet TEXT NOT NULL,
     Stiftelsesaar INTEGER NOT NULL
+);
+
+-- Tabell for Produsentnasjonaliteter
+CREATE TABLE Produsentnasjonalitet (
+    Flyprodusent TEXT,
+    Nasjonalitet TEXT,
+    PRIMARY KEY (Flyprodusent, Nasjonalitet),
+    FOREIGN KEY (Flyprodusent) REFERENCES Flyprodusent(Navn) ON UPDATE CASCADE ON DELETE CASCADE,
 );
 
 -- Tabell for Flytyper
