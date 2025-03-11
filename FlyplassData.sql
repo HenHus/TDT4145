@@ -8,9 +8,9 @@ VALUES ('OSL', 'Oslo Lufthavn, Gardermoen'),
 INSERT INTO Flyselskap (Flyselskapkode, Navn)
 VALUES ('SK', 'SAS'),
        ('DY', 'Norwegian'),
-       ('WF', 'Widerøe')
+       ('WF', 'Widerøe');
 
-INSERT INTO Flyprodusent (Navn, Nasjonalitet, Stiftelsesar)
+INSERT INTO Flyprodusent (Navn, Stiftelsesaar)
 VALUES ('The Boeing Company', 1916),
        ('Airbus Group', 1970),
        ('De Havilland Canada', 1928);
@@ -27,10 +27,10 @@ VALUES ('The Boeing Company', 'USA'),
 INSERT INTO Flytype (Navn, Flyprodusent, Produksjonstart, Produksjonsslutt)
 VALUES ('Boeing 737-800', 'The Boeing Company', 1997, 2020),
        ('Airbus a320neo', 'Airbus Group', 2016, NULL),
-       ('Dash-8 100', 'Dash-8', 1984, 2005);
+       ('Dash-8 100', 'De Havilland Canada', 1984, 2005);
 
 -- Tabell delvis generert med GitHub Copilot for å spare tid
-INSERT INTO Flyradkonfigurasjon (Flytype, Radnummer, Setekonfigurasjon, Nodutgang)
+INSERT INTO Flyradkonfigurasjon (Flytype, Radnummer, Setekonfigurasjon)
 VALUES ('Boeing 737-800', 1, 'ABC DEF'),
          ('Boeing 737-800', 2, 'ABC DEF'),
          ('Boeing 737-800', 3, 'ABC DEF'),
@@ -43,7 +43,6 @@ VALUES ('Boeing 737-800', 1, 'ABC DEF'),
          ('Boeing 737-800', 10, 'ABC DEF'),
          ('Boeing 737-800', 11, 'ABC DEF'),
          ('Boeing 737-800', 12, 'ABC DEF'),
-         ('Boeing 737-800', 13, 'ABC DEF', 1),
          ('Boeing 737-800', 14, 'ABC DEF'),
          ('Boeing 737-800', 15, 'ABC DEF'),
          ('Boeing 737-800', 16, 'ABC DEF'),
@@ -72,8 +71,6 @@ VALUES ('Boeing 737-800', 1, 'ABC DEF'),
          ('Airbus a320neo', 8, 'ABC DEF'),
          ('Airbus a320neo', 9, 'ABC DEF'),
          ('Airbus a320neo', 10, 'ABC DEF'),
-         ('Airbus a320neo', 11, 'ABC DEF', 1),
-         ('Airbus a320neo', 12, 'ABC DEF', 1),
          ('Airbus a320neo', 13, 'ABC DEF'),
          ('Airbus a320neo', 14, 'ABC DEF'),
          ('Airbus a320neo', 15, 'ABC DEF'),
@@ -97,15 +94,20 @@ VALUES ('Boeing 737-800', 1, 'ABC DEF'),
          ('Dash-8 100', 2, 'AB CD'),
          ('Dash-8 100', 3, 'AB CD'),
          ('Dash-8 100', 4, 'AB CD'),
-         ('Dash-8 100', 5, 'AB CD', 1),
          ('Dash-8 100', 6, 'AB CD'),
          ('Dash-8 100', 7, 'AB CD'),
          ('Dash-8 100', 8, 'AB CD'),
          ('Dash-8 100', 9, 'AB CD'),
-         ('Dash-8 100', 10, 'AB CD')
+         ('Dash-8 100', 10, 'AB CD');
+
+INSERT INTO Flyradkonfigurasjon (Flytype, Radnummer, Setekonfigurasjon, Nodutgang)
+VALUES ('Boeing 737-800', 13, 'ABC DEF', 1),
+         ('Airbus a320neo', 11, 'ABC DEF', 1),
+         ('Airbus a320neo', 12, 'ABC DEF', 1),
+        ('Dash-8 100', 5, 'AB CD', 1);
 
 INSERT INTO Fly (RegNr, SerieNr, Navn, DriftetSiden, Flytype, Flyselskap)
-('LN-ENU', 42069, NULL, 2015, 'Boeing 737-800', 'DY'),
+VALUES ('LN-ENU', 42069, NULL, 2015, 'Boeing 737-800', 'DY'),
 ('LN-ENR', 42093, 'Jan Bålsrud', 2018, 'Boeing 737-800', 'DY'),
 ('LN-NIQ', 39403, 'Max Manus', 2011, 'Boeing 737-800', 'DY'),
 ('LN-ENS', 42281, NULL, 2017, 'Boeing 737-800', 'DY'),
@@ -115,16 +117,16 @@ INSERT INTO Fly (RegNr, SerieNr, Navn, DriftetSiden, Flytype, Flyselskap)
 ('SE-RZE', 12166, 'Ebbe Viking', 2024, 'Airbus a320neo', 'SK'),
 ('LN-WIH', 383, 'Oslo', 1994, 'Dash-8 100', 'WF'),
 ('LN-WIA', 359, 'Nordland', 1993, 'Dash-8 100', 'WF'),
-('LN-WIL', 298, 'Narvik', 1995, 'Dash-8 100', 'WF')
+('LN-WIL', 298, 'Narvik', 1995, 'Dash-8 100', 'WF');
 
 INSERT INTO Flyrute(Flyrutenummer, StartFlyplass, SluttFlyplass, Ukedagskode,Flyselskap,
     Flytype, PlanlagtAvgang, PlanlagtAnkomst, Oppstartsdato, SluttDato)
 VALUES
-    ('WF1311', 'TRD', 'BOO', '12345', 'WF', 'Dash-8 100', '15:15', '16:20', '2025-01-01'),
-    ('WF1302', 'BOO', 'TRD', '12345', 'WF', 'Dash-8 100', '07:35', '08:40', '2025-01-01'),
-    ('DY753', 'TRD', 'OSL', '1234567', 'DY', 'Boeing 737-800', '10:20', '11:15', '2025-01-01'),
-    ('SK332', 'OSL', 'TRD', '1234567', 'SK', 'Airbus a320neo', '08:00', '09:05', '2025-01-01'),
-    ('SK888', 'TRD', 'SVG', '12345', 'SK', 'Airbus a320neo', '10:00', '12:10', '2025-01-01');
+    ('WF1311', 'TRD', 'BOO', '12345', 'WF', 'Dash-8 100', '15:15', '16:20', '2025-01-01', NULL),
+    ('WF1302', 'BOO', 'TRD', '12345', 'WF', 'Dash-8 100', '07:35', '08:40', '2025-01-01', NULL),
+    ('DY753', 'TRD', 'OSL', '1234567', 'DY', 'Boeing 737-800', '10:20', '11:15', '2025-01-01', NULL),
+    ('SK332', 'OSL', 'TRD', '1234567', 'SK', 'Airbus a320neo', '08:00', '09:05', '2025-01-01', NULL),
+    ('SK888', 'TRD', 'SVG', '12345', 'SK', 'Airbus a320neo', '10:00', '12:10', '2025-01-01', NULL);
 
 
 INSERT INTO Mellomlanding(Flyrutenummer, Flyplasskode)

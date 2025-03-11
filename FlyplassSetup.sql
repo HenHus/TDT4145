@@ -23,7 +23,7 @@ CREATE TABLE Produsentnasjonalitet (
     Flyprodusent TEXT,
     Nasjonalitet TEXT,
     PRIMARY KEY (Flyprodusent, Nasjonalitet),
-    FOREIGN KEY (Flyprodusent) REFERENCES Flyprodusent(Navn) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (Flyprodusent) REFERENCES Flyprodusent(Navn) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Tabell for Flytyper
