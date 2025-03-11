@@ -32,16 +32,16 @@ CREATE TABLE Flytype (
     Flyprodusent TEXT NOT NULL,
     Produksjonstart INTEGER NOT NULL,
     Produksjonsslutt INTEGER,
-    Seterader INTEGER NOT NULL,
-    Setekolonner INTEGER NOT NULL,
     FOREIGN KEY (Flyprodusent) REFERENCES Flyprodusent(Navn) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Tabell for Nødutganger
-CREATE TABLE Nodutgang (
-    Flytype TEXT NOT NULL,
-    Rad INTEGER NOT NULL,
-    PRIMARY KEY (Flytype, Rad),
+CREATE TABLE Flyradkonfigurasjon (
+    Flytype TEXT,
+    Radnummer INTEGER,
+    Setekonfigurasjon TEXT NOT NULL,
+    Nodutgang BOOLEAN NOT NULL DEFAULT 0,
+    PRIMARY KEY (Flytype, Radnummer),
     FOREIGN KEY (Flytype) REFERENCES Flytype(Navn) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
