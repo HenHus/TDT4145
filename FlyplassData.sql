@@ -118,3 +118,25 @@ VALUES ('LN-ENU', 42069, NULL, 2015, 'Boeing 737-800', 'DY'),
 ('LN-WIH', 383, 'Oslo', 1994, 'Dash-8 100', 'WF'),
 ('LN-WIA', 359, 'Nordland', 1993, 'Dash-8 100', 'WF'),
 ('LN-WIL', 298, 'Narvik', 1995, 'Dash-8 100', 'WF');
+
+INSERT INTO Flyrute(Flyrutenummer, StartFlyplass, SluttFlyplass, Ukedagskode,Flyselskap,
+    Flytype, PlanlagtAvgang, PlanlagtAnkomst, Oppstartsdato, SluttDato)
+VALUES
+    ('WF1311', 'TRD', 'BOO', '12345', 'WF', 'Dash-8 100', '15:15', '16:20', '2025-01-01'),
+    ('WF1302', 'BOO', 'TRD', '12345', 'WF', 'Dash-8 100', '07:35', '08:40', '2025-01-01'),
+    ('DY753', 'TRD', 'OSL', '1234567', 'DY', 'Boeing 737-800', '10:20', '11:15', '2025-01-01'),
+    ('SK332', 'OSL', 'TRD', '1234567', 'SK', 'Airbus a320neo', '08:00', '09:05', '2025-01-01'),
+    ('SK888', 'TRD', 'SVG', '12345', 'SK', 'Airbus a320neo', '10:00', '12:10', '2025-01-01');
+
+
+INSERT INTO Mellomlanding(Flyrutenummer, Flyplasskode)
+VALUES
+    ('SK888', 'BGO');
+
+INSERT INTO Flyvning (Lopenummer, Flyrutenummer, Flyvningsnummer, FlyRegNr, FlyStatus, StartFlyplass, SluttFlyplass, PlanlagtAvgangstid, PlanlagtAnkomsttid, BudsjettPris, OkonomiPris, PremiumPris)
+VALUES
+    ('2025-04-01-WF1302', 'WF1302', 0, 'LN-WIA', 'Planned', 'BOO', 'TRD', '07:35', '08:40', 599, 899, 2018),
+    ('2025-04-01-DY753', 'DY753', 0, 'LN-ENU', 'Planned', 'TRD', 'OSL', '10:20', '11:15', 500, 1000, 1500),
+    ('2025-04-01-SK888', 'SK888', 1, 'SE-DIR', 'Planned', 'TRD', 'BGO', '10:00', '11:10', 800, 1500, 2000),
+    ('2025-04-01-SK888', 'SK888', 2, 'SE-DIR', 'Planned', 'BGO', 'SVG', '11:40', '12:10', 350, 700, 1000),
+    ('2025-04-01-SK888', 'SK888', 0, 'SE-DIR', 'Planned', 'TRD', 'SVG', '10:00', '12:10', 1000, 1700, 2200);
