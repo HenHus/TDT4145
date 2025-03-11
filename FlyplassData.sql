@@ -122,11 +122,11 @@ VALUES ('LN-ENU', 42069, NULL, 2015, 'Boeing 737-800', 'DY'),
 INSERT INTO Flyrute(Flyrutenummer, StartFlyplass, SluttFlyplass, Ukedagskode,Flyselskap,
     Flytype, PlanlagtAvgang, PlanlagtAnkomst, Oppstartsdato, SluttDato)
 VALUES
-    ('WF1311', 'TRD', 'BOO', '12345', 'WF', 'Dash-8 100', '15:15', '16:20', '2025-01-01'),
-    ('WF1302', 'BOO', 'TRD', '12345', 'WF', 'Dash-8 100', '07:35', '08:40', '2025-01-01'),
-    ('DY753', 'TRD', 'OSL', '1234567', 'DY', 'Boeing 737-800', '10:20', '11:15', '2025-01-01'),
-    ('SK332', 'OSL', 'TRD', '1234567', 'SK', 'Airbus a320neo', '08:00', '09:05', '2025-01-01'),
-    ('SK888', 'TRD', 'SVG', '12345', 'SK', 'Airbus a320neo', '10:00', '12:10', '2025-01-01');
+    ('WF1311', 'TRD', 'BOO', '12345', 'WF', 'Dash-8 100', '15:15', '16:20', '2025-01-01', NULL),
+    ('WF1302', 'BOO', 'TRD', '12345', 'WF', 'Dash-8 100', '07:35', '08:40', '2025-01-01', NULL),
+    ('DY753', 'TRD', 'OSL', '1234567', 'DY', 'Boeing 737-800', '10:20', '11:15', '2025-01-01', NULL),
+    ('SK332', 'OSL', 'TRD', '1234567', 'SK', 'Airbus a320neo', '08:00', '09:05', '2025-01-01', NULL),
+    ('SK888', 'TRD', 'SVG', '12345', 'SK', 'Airbus a320neo', '10:00', '12:10', '2025-01-01', NULL);
 
 
 INSERT INTO Mellomlanding(Flyrutenummer, Flyplasskode)

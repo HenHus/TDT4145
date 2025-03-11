@@ -9,16 +9,16 @@ def finn_ruter(database, flyplass, ukedag, ankomst_eller_avgang):
         cur.execute("""
             SELECT Flyrutenummer, PlanlagtAvgang, StartFlyplass, SluttFlyplass
             FROM Flyrute
-            WHERE StartFlyplass = ? AND Ukedagskode LIKE '%?%'
+            WHERE StartFlyplass = ? AND Ukedagskode LIKE ?
             ORDER BY PlanlagtAvgang
-        """, (flyplass, ukedag))
+        """, (flyplass,  f'%{ukedag}%'))
     else:
         cur.execute("""
             SELECT Flyrutenummer, PlanlagtAnkomst, StartFlyplass, SluttFlyplass
             FROM Flyrute
-            WHERE SluttFlyplass = ? AND Ukedagskode LIKE '%?%'
+            WHERE SluttFlyplass = ? AND Ukedagskode LIKE ?
             ORDER BY PlanlagtAnkomst
-        """, (flyplass, ukedag))
+        """, (flyplass,  f'%{ukedag}%'))
         
     resultat = cur.fetchall()
 
@@ -65,4 +65,10 @@ def vis_resultater(ruter, ankomst_eller_avgang):
         mellomlandinger_str = ", ".join(mellomlandinger) if mellomlandinger else "Flyr direkte"
         print(f"{flyrutenummer:<15}{tidspunkt:<12}{start:<10}{slutt:<10}{mellomlandinger_str}")
 
-finn_ruter('Fly.db', 'OSL', '1', True)
+def main():
+
+    ruter = finn_ruter('Fly.db', 'TRD', '1', "avgang")
+
+    vis_resultater(ruter, "avgang")
+
+main()
