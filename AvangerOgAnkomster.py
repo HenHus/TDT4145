@@ -1,5 +1,27 @@
 import sqlite3
 
+def hent_flyplasser(database):
+    conn = sqlite3.connect(database)
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT Flyplasskode, Flyplassnavn
+        FROM Flyplass
+    """)
+    flyplasser = cur.fetchall()
+    conn.close()
+    return flyplasser
+
+def vis_flyplasser(flyplasser):
+    if not flyplasser:
+        print("Ingen flyplasser funnet.")
+        return
+
+    print(f"{'Flyplasskode':<15} | {'Flyplassnavn'}")
+    print("-" * 40)
+    for kode, navn in flyplasser:
+        print(f"{kode:<15} | {navn}")
+
+
 def finn_ruter(database, flyplass, ukedag, ankomst_eller_avgang):
 
     conn = sqlite3.connect(database)
@@ -65,10 +87,27 @@ def vis_resultater(ruter, ankomst_eller_avgang):
         mellomlandinger_str = ", ".join(mellomlandinger) if mellomlandinger else "Flyr direkte"
         print(f"{flyrutenummer:<15}{tidspunkt:<12}{start:<10}{slutt:<10}{mellomlandinger_str}")
 
-def main():
+def HentAvgangerOgAnkomster():
 
-    ruter = finn_ruter('Fly.db', 'TRD', '1', "avgang")
+    print("Her kan du sjekke avganger og ankomster til flyplasser.\n\nSkriv inn en flyplasskode i listen under:")
+    vis_flyplasser(hent_flyplasser('Fly.db'))
 
-    vis_resultater(ruter, "avgang")
+    while True:
+        kode = input("Skriv flyplasskode her (Enter for å avslutte): ")
 
-main()
+        if kode == "":
+            print("Goodbye.")
+            break
+
+        else:
+            print("1 -- Mandag\n2 -- Tirsdag\n3 -- Onsdag\n4 -- Torsdag\n5 -- Fredag\n6 -- Lørdag\n7 -- Søndag")
+            ukedag = input("Velg ukedag (Skriv inn ETT tall): ")
+
+            type = input("Vil du se avganger eller ankomster? Spesifiser avgang eller ankomst: ").lower()
+        
+
+            ruter = finn_ruter('Fly.db', kode, ukedag, type)
+
+            vis_resultater(ruter, type)
+
+HentAvgangerOgAnkomster()
