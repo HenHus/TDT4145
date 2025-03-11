@@ -110,4 +110,5 @@ def HentAvgangerOgAnkomster():
 
             vis_resultater(ruter, type)
 
-HentAvgangerOgAnkomster()
+if __name__ == "__main__":
+    HentAvgangerOgAnkomster()
