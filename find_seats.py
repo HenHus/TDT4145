@@ -2,8 +2,8 @@ import sqlite3
 
 DB_FILE = "Fly.db"
 
+# Henter alle tilgjengelige flyvninger med løpenummer fra databasen.
 def get_flights():
-    """Henter alle tilgjengelige flyvninger med løpenummer fra databasen."""
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     
@@ -18,8 +18,8 @@ def get_flights():
     
     return flyvninger
 
+# Henter setekonfigurasjon for en gitt flyvning.
 def seatconfig(flyrutenummer, lopenummer):
-    """Henter setekonfigurasjon for en gitt flyvning og unngår duplikater."""
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     
@@ -42,8 +42,8 @@ def seatconfig(flyrutenummer, lopenummer):
     
     return sorted(seter)
 
+# Henter opptatte seter for en flyvning basert på flyvningsnummer og tidsmessig overlapp.
 def taken_seats(flyrutenummer, lopenummer, flyvningsnummer):
-    """Henter opptatte seter for en flyvning basert på flyvningsnummer og tidsmessig overlapp."""
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
 
@@ -84,9 +84,8 @@ def taken_seats(flyrutenummer, lopenummer, flyvningsnummer):
     
     return opptatte_seter
 
-
+# Finner ledige seter på en flyvning.
 def available_seats(flyrutenummer, lopenummer,flyvningsnummer):
-    """Finner ledige seter på en flyvning basert på tidsmessig overlapp."""
     alle_seter = seatconfig(flyrutenummer, lopenummer)
     opptatte_seter = taken_seats(flyrutenummer, lopenummer, flyvningsnummer)
     
@@ -100,8 +99,8 @@ def available_seats(flyrutenummer, lopenummer,flyvningsnummer):
     
     return ledige_seter
 
+# Hjelpefunksjon for å hente flyrutenummer basert på løpenummer.
 def get_flightNumber(lopenummer):
-    """Henter flyrutenummer basert på løpenummer."""
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute("SELECT Flyrutenummer FROM Flyvning WHERE Lopenummer = ?", (lopenummer,))
@@ -109,6 +108,7 @@ def get_flightNumber(lopenummer):
     conn.close()
     return flyrutenummer
 
+# main funksjon for å interagere med bruker
 def main():
     print("\nTilgjengelige flyvninger:")
     flyvninger = get_flights()
