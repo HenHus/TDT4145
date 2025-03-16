@@ -23,7 +23,8 @@ def intro():
     print("\n\n\n\nVi har følgende funksjonaliteter:", end="\n\n\n")
     print("1 -- Legg in data i databasen fra vedlegg 1, 2 og 3", end="\n\n")
     print("2 -- En enklel oversikt over flyselskap, flytyper som flyselskaper bruker, og hvor mange fly av flytypene (SQL-spørring)", end="\n\n")
-    print("3 -- Oversikt over avganger og ankomster til en gitt flyplass på en gitt dag", end="\n\n")
+    print("3 -- Miniprogram for oversikt over avganger og ankomster til en gitt flyplass på en gitt dag", end="\n\n")
+    print("4 -- Minoprogram for oversikt over ledige seter på en flyvning", end="\n\n")
 
 # Hovedprogrammet som kjøres i terminalen
 def main():
@@ -42,6 +43,10 @@ def main():
             Oversikt.main()
         elif valg == "3":
             AOA.HentAvgangerOgAnkomster()
+        elif valg == "4":
+            pass
+        else:
+            print("Ugyldig valg. Prøv igjen!.")
 
 
 main()
