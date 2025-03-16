@@ -111,7 +111,7 @@ CREATE TABLE Mellomlanding (
 
 -- Tabell for Kunder
 CREATE TABLE Kunde (
-    KundeNr INTEGER PRIMARY KEY AUTOINCREMENT,
+    KundeNr INTEGER PRIMARY KEY,
     Navn TEXT NOT NULL,
     Telefonnummer TEXT NOT NULL,
     Epost TEXT NOT NULL,
@@ -130,7 +130,7 @@ CREATE TABLE Fordelsprogram (
 
 -- Tabell for Billetter
 CREATE TABLE Billett (
-    BillettID INTEGER PRIMARY KEY AUTOINCREMENT,
+    BillettID INTEGER PRIMARY KEY,
     Lopenummer TEXT NOT NULL,
     Flyrutenummer TEXT NOT NULL,
     Flyvningsnummer INTEGER NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE Billett (
 
 -- Tabell for Billettkjøp
 CREATE TABLE Billettkjop (
-    Referansenummer INTEGER PRIMARY KEY AUTOINCREMENT,
+    Referansenummer INTEGER PRIMARY KEY,
     KundeNr INTEGER NOT NULL,
     Startflyplass TEXT NOT NULL,
     Sluttflyplass TEXT NOT NULL,
