@@ -15,6 +15,7 @@ def oversikt(database, sql_script_file="Oversikt.sql"):
 
     return flyplasser
 
+# Funksjon som viser oversikten på en pen måte, struktur er inspirert av genererte forslag fra Chat GPT
 def vis_oversikt(flydata):
     if not flydata:
         print("Ingen data funnet.")

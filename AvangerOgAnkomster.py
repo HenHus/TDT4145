@@ -1,5 +1,6 @@
 import sqlite3
 
+# Henter flyplasser fra databasen for å gi brukeren mulighet til å velge en flyplass
 def hent_flyplasser(database):
     conn = sqlite3.connect(database)
     cur = conn.cursor()
@@ -11,6 +12,7 @@ def hent_flyplasser(database):
     conn.close()
     return flyplasser
 
+# Viser flyplasser på en pen måte, inspirert av genererte forslag fra Chat GPT
 def vis_flyplasser(flyplasser):
     if not flyplasser:
         print("Ingen flyplasser funnet.")
@@ -21,7 +23,7 @@ def vis_flyplasser(flyplasser):
     for kode, navn in flyplasser:
         print(f"{kode:<15} | {navn}")
 
-
+# Finner ruter basert på brukerens preferanser
 def finn_ruter(database, flyplass, ukedag, ankomst_eller_avgang):
 
     conn = sqlite3.connect(database)
@@ -73,6 +75,7 @@ def finn_ruter(database, flyplass, ukedag, ankomst_eller_avgang):
     conn.close()
     return ruter_med_mellomlandinger
 
+# Funksjon som viser resultatene på en pen måte, striktur er inspirert av genererte forslag fra Chat GPT
 def vis_resultater(ruter, ankomst_eller_avgang):
     if not ruter:
         print("Ingen ruter funnet.")
@@ -90,6 +93,7 @@ def vis_resultater(ruter, ankomst_eller_avgang):
     print("\n")
     print("-" * 60)
 
+# Main script for å hente ut avganger og ankomster innlagt i databasen
 def HentAvgangerOgAnkomster():
 
     print("Her kan du sjekke avganger og ankomster til flyplasser.\n\nSkriv inn en flyplasskode i listen under:", end="\n\n")
