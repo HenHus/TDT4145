@@ -86,29 +86,54 @@ def vis_resultater(ruter, ankomst_eller_avgang):
         flyrutenummer, tidspunkt, start, slutt, mellomlandinger = rute
         mellomlandinger_str = ", ".join(mellomlandinger) if mellomlandinger else "Flyr direkte"
         print(f"{flyrutenummer:<15}{tidspunkt:<12}{start:<10}{slutt:<10}{mellomlandinger_str}")
+    
+    print("\n")
+    print("-" * 60)
 
 def HentAvgangerOgAnkomster():
 
-    print("Her kan du sjekke avganger og ankomster til flyplasser.\n\nSkriv inn en flyplasskode i listen under:")
-    vis_flyplasser(hent_flyplasser('Fly.db'))
+    print("Her kan du sjekke avganger og ankomster til flyplasser.\n\nSkriv inn en flyplasskode i listen under:", end="\n\n")
 
     while True:
-        kode = input("Skriv flyplasskode her (Enter for å avslutte): ")
+        vis_flyplasser(hent_flyplasser('Fly.db'))
+        print("\n\n\n")
+        kode = input("Skriv flyplasskode her (Enter for å avslutte): ").upper()
+        if kode:
+            flyplasser = hent_flyplasser('Fly.db')
+            gyldig_kode = any(kode == flyplass[0] for flyplass in flyplasser)
+            if not gyldig_kode:
+                print("Ugyldig flyplasskode. Vennligst prøv igjen.")
+                continue
 
         if kode == "":
-            print("Goodbye.")
+            print("Exiting...")
             break
 
         else:
-            print("1 -- Mandag\n2 -- Tirsdag\n3 -- Onsdag\n4 -- Torsdag\n5 -- Fredag\n6 -- Lørdag\n7 -- Søndag")
-            ukedag = input("Velg ukedag (Skriv inn ETT tall): ")
+            print("1 -- Mandag\n2 -- Tirsdag\n3 -- Onsdag\n4 -- Torsdag\n5 -- Fredag\n6 -- Lørdag\n7 -- Søndag", end="\n\n\n")
+            while True:
+                try:
+                    ukedag = int(input("Velg ukedag (Skriv inn ETT tall): "))
+                    if 1 <= ukedag <= 7:
+                        break
+                    else:
+                        print("Ukedagen må være et tall mellom 1 og 7.")
+                except ValueError:
+                    print("Vennligst skriv inn et gyldig tall.")
+            
 
-            type = input("Vil du se avganger eller ankomster? Spesifiser avgang eller ankomst: ").lower()
+            while True:
+                type = input("Vil du se avganger eller ankomster? Spesifiser avgang eller ankomst: ").lower()
+                if type in ["avgang", "ankomst"]:
+                    break
+                else:
+                    print("Ugyldig valg. Vennligst spesifiser enten 'avgang' eller 'ankomst'.")
         
 
             ruter = finn_ruter('Fly.db', kode, ukedag, type)
-
+            print("\n\n")
             vis_resultater(ruter, type)
+            print("\n\n")
 
 if __name__ == "__main__":
     HentAvgangerOgAnkomster()
