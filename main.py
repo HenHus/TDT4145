@@ -46,7 +46,7 @@ def main():
         elif valg == "3":
             AOA.HentAvgangerOgAnkomster()
         elif valg == "4":
-            pass
+            insert_data("Bestillinger.sql")
         elif valg == "5":
             find_seats.main()
         else:
