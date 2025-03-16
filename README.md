@@ -1,5 +1,5 @@
 # FlyDB – Del 2: Realisert Databasesystem
-
+- Gruppemedlemmer: Birk Thomassen, Henning Kristiansen, Kristoffer Welle
 ## Introduksjon
 Prosjektet innebærer utvikling av en databaseapplikasjon i **Python** med **SQLite**, som håndterer flyruter, flyplasser, flyselskaper, kunder og billettbestillinger for innenlandske flyvninger i Norge.
 
