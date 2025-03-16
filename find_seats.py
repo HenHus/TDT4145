@@ -42,7 +42,7 @@ def seatconfig(flyrutenummer, lopenummer):
     
     return sorted(seter)
 
-# Henter opptatte seter for en flyvning basert på flyvningsnummer og tidsmessig overlapp.
+# Henter opptatte seter for en flyvning basert på flyvningsnummer og tidsmessig overlapp. Denne funskjonen er delvis generert av chatGPT.
 def taken_seats(flyrutenummer, lopenummer, flyvningsnummer):
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
@@ -108,7 +108,7 @@ def get_flightNumber(lopenummer):
     conn.close()
     return flyrutenummer
 
-# main funksjon for å interagere med bruker
+# main funksjon for å interagere med bruker. Funksjonen er delvis generert av chatGPT.
 def main():
     print("\nTilgjengelige flyvninger:")
     flyvninger = get_flights()
