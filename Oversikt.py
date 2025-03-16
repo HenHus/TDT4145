@@ -1,22 +1,18 @@
 import sqlite3
 
-def oversikt(database):
+# Funksjon som henter ut oversikt gjennom å kjøre Oversikt.sql scriptet
+def oversikt(database, sql_script_file="Oversikt.sql"):
+
     conn = sqlite3.connect(database)
     cur = conn.cursor()
 
-    cur.execute("""
-        SELECT 
-    f.Flyselskap AS Flyselskapkode,
-    fs.Navn AS FlyselskapNavn,
-    f.Flytype,
-    COUNT(*) AS AntallFly
-    FROM Fly f
-    JOIN Flyselskap fs ON f.Flyselskap = fs.Flyselskapkode
-    GROUP BY f.Flyselskap, f.Flytype
-    ORDER BY fs.Navn, AntallFly DESC;
+    with open(sql_script_file, 'r', encoding='utf-8') as file:
+        query = file.read()
 
-    """)
+    cur.execute(query)
     flyplasser = cur.fetchall()
+    conn.close()
+
     return flyplasser
 
 def vis_oversikt(flydata):
