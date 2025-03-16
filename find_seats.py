@@ -42,52 +42,61 @@ def seatconfig(flyrutenummer, lopenummer):
     
     return sorted(seter)
 
-def taken_seats(flyrutenummer, lopenummer):
-    """Henter opptatte seter for en flyvning basert kun på tidsmessig overlapp."""
+def taken_seats(flyrutenummer, lopenummer, flyvningsnummer):
+    """Henter opptatte seter for en flyvning basert på flyvningsnummer og tidsmessig overlapp."""
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    
+
     # Hent tidspunkt for den valgte flyvningen
     cursor.execute("""
-        SELECT PlanlagtAvgangstid, PlanlagtAnkomsttid 
+        SELECT PlanlagtAvgangstid, PlanlagtAnkomsttid
         FROM Flyvning 
-        WHERE Lopenummer = ?
-    """, (lopenummer,))
+        WHERE Lopenummer = ? AND Flyvningsnummer = ?
+    """, (lopenummer, flyvningsnummer))
     valgt_avgang, valgt_ankomst = cursor.fetchone()
-    
-    # Finn alle flyvninger på samme rute som overlapper i tid
+
+    # Finn overlappende flyvningsnumre
     cursor.execute("""
-        SELECT Lopenummer 
+        SELECT Flyvningsnummer 
         FROM Flyvning 
         WHERE Flyrutenummer = ? 
-        AND PlanlagtAvgangstid < ? 
-        AND PlanlagtAnkomsttid > ?
-    """, (flyrutenummer, valgt_ankomst, valgt_avgang))
-    
-    overlappende_lopenumre = {row[0] for row in cursor.fetchall()}
-    
-    # Inkluder alltid den valgte flyvningen i søket etter opptatte seter
-    overlappende_lopenumre.add(lopenummer)
+        AND Flyvningsnummer != ?
+        AND (PlanlagtAvgangstid <= ? 
+            AND PlanlagtAnkomsttid >= ?)
+        OR (PlanlagtAvgangstid >= ? AND PlanlagtAnkomsttid <= ?)
+    """, (flyrutenummer, flyvningsnummer, valgt_avgang, valgt_ankomst, valgt_avgang, valgt_ankomst))
 
-    # Hent opptatte seter på den valgte flyvningen + overlappende flyvninger
-    cursor.execute(f"""
+    overlappende_flyvninger = {row[0] for row in cursor.fetchall()}
+
+    if not overlappende_flyvninger:
+        conn.close()
+        return set()
+
+
+    placeholders = ', '.join(['?'] * len(overlappende_flyvninger))
+    query = f"""
         SELECT Sete FROM Billett 
-        WHERE Lopenummer IN ({','.join('?' * len(overlappende_lopenumre))})
-    """, tuple(overlappende_lopenumre))
-
+        WHERE Flyvningsnummer IN ({placeholders})
+    """
+    cursor.execute(query, tuple(overlappende_flyvninger))
     opptatte_seter = {row[0] for row in cursor.fetchall()}
     conn.close()
-
+    
     return opptatte_seter
 
 
-def available_seats(flyrutenummer, lopenummer):
+def available_seats(flyrutenummer, lopenummer,flyvningsnummer):
     """Finner ledige seter på en flyvning basert på tidsmessig overlapp."""
     alle_seter = seatconfig(flyrutenummer, lopenummer)
-    opptatte_seter = taken_seats(flyrutenummer, lopenummer)
+    opptatte_seter = taken_seats(flyrutenummer, lopenummer, flyvningsnummer)
     
     ledige_seter = [sete for sete in alle_seter if sete not in opptatte_seter]
-    ledige_seter.sort(key=lambda s: (int(s[:-1]), s[-1]))
+    
+    # Sorter setene basert på radnummer først, setebokstav deretter
+    def sort_seats(seat):
+        return int(seat[:-1]), seat[-1]
+    
+    ledige_seter.sort(key=sort_seats)
     
     return ledige_seter
 
@@ -127,7 +136,7 @@ def main():
         return
     
     flyrutenummer = get_flightNumber(lopenummer)
-    seter = available_seats(flyrutenummer, lopenummer)
+    seter = available_seats(flyrutenummer, lopenummer, flyvningsnummer)
     
     print(f"\nLedige seter for flyvningen {startflyplass} → {sluttflyplass}:")
     print(", ".join(seter) if seter else "Ingen ledige seter.")
